@@ -1,0 +1,33 @@
+  
+<!DOCTYPE html>
+<html lang="en">
+    <body bgcolor=#d4a3ae>
+<head>
+    <meta charset="UTF-8">
+    <title>Speech Recognition in Python</title>
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/index.css') }}" /> -->
+</head>
+<body>
+<div id="speechContainer" align="center">
+    <h1>Upload new File</h1>
+    <form method="POST" enctype="multipart/form-data" action="{{url_for('upload')}}">
+        <input type="file" name="file"/>
+        <br>
+        <input type="submit" id="submitButton" value="Predict"/>
+    </form>
+
+    {% if transcript != "" %}
+        <div id="speechTranscriptContainer">
+            <h1>Speech Emtion Recognition</h1>
+            <p id="speechText">{{ preds }}</p>
+        </div>
+    {% endif %}
+</div>
+<footer id="footer">
+    <div align="center">
+        <small>Crafted By Suraj</small>
+        <br>
+
+</body>
+</html>
