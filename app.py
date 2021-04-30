@@ -12,15 +12,14 @@ if not sys.warnoptions:
     warnings.simplefilter("ignore")
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 
-import tensorflow.ker
 import glob
 import re
 # Keras
 from keras.models import load_model
 # Flask utils
 from flask import redirect, url_for, request
-from werkzeug.utils import secure_filename
-from gevent.pywsgi import WSGIServer
+# from werkzeug.utils import secure_filename
+# from gevent.pywsgi import WSGIServer
 
 
 
@@ -36,57 +35,57 @@ MODEL_2_PATH = 'models\model_2d_mfcc.h5'
 
 # Load your trained model
 model = tf.keras.models.load_model(MODEL_1_PATH)
-model2=tf.keras.models.load_model(MODEL_2_PATH)
+# model2=tf.keras.models.load_model(MODEL_2_PATH)
           
 
 print('Model loaded. Check http://127.0.0.1:5000/')
 
-# function for model_2 predictions
-def model_2_prediction(file_path,model2):
-    n_mfcc = 30
-    sampling_rate=44100
-    n=n_mfcc
-    f={'file_path':[file_path]}
-    df= pd.DataFrame(f)
-    X = np.empty(shape=(df.shape[0],n , 216, 1))
-    input_length = 44100 * 2.5
-    cnt=0
-    data, sample_rate = librosa.load(file_path, res_type='kaiser_fast',duration=2.5,sr=44100,offset=0.5)
+# # function for model_2 predictions
+# def model_2_prediction(file_path,model2):
+#     n_mfcc = 30
+#     sampling_rate=44100
+#     n=n_mfcc
+#     f={'file_path':[file_path]}
+#     df= pd.DataFrame(f)
+#     X = np.empty(shape=(df.shape[0],n , 216, 1))
+#     input_length = 44100 * 2.5
+#     cnt=0
+#     data, sample_rate = librosa.load(file_path, res_type='kaiser_fast',duration=2.5,sr=44100,offset=0.5)
 
-    if len(data) > input_length:
-            max_offset = len(data) - input_length
-            offset = np.random.randint(max_offset)
-            data = data[offset:(input_length+offset)]
-    else:
-        if input_length > len(data):
-            max_offset = input_length - len(data)
-            offset = np.random.randint(max_offset)
-        else:
-            offset = 0
-        data = np.pad(data, (offset, int(input_length) - len(data) - offset), "constant")
+#     if len(data) > input_length:
+#             max_offset = len(data) - input_length
+#             offset = np.random.randint(max_offset)
+#             data = data[offset:(input_length+offset)]
+#     else:
+#         if input_length > len(data):
+#             max_offset = input_length - len(data)
+#             offset = np.random.randint(max_offset)
+#         else:
+#             offset = 0
+#         data = np.pad(data, (offset, int(input_length) - len(data) - offset), "constant")
 
     
     
     
-    n_mfcc = 30
+#     n_mfcc = 30
     
-    MFCC = librosa.feature.mfcc(data, sr=sampling_rate, n_mfcc=n_mfcc)
-    MFCC = np.expand_dims(MFCC, axis=-1)
-    X[cnt,] = MFCC
+#     MFCC = librosa.feature.mfcc(data, sr=sampling_rate, n_mfcc=n_mfcc)
+#     MFCC = np.expand_dims(MFCC, axis=-1)
+#     X[cnt,] = MFCC
     
     
 
-    mean = np.mean(X)
-    std = np.std(X)
-    X = (X - mean)/std
+#     mean = np.mean(X)
+#     std = np.std(X)
+#     X = (X - mean)/std
 
-    prediction_model_2 = model2.predict(X)
+#     prediction_model_2 = model2.predict(X)
 
-    prediction_model_2=prediction_model_2.argmax(axis=1)
-    prediction_model_2 = prediction_model_2.astype(int).flatten()
+#     prediction_model_2=prediction_model_2.argmax(axis=1)
+#     prediction_model_2 = prediction_model_2.astype(int).flatten()
    
 
-    return prediction_model_2
+#     return prediction_model_2
 
 # Function for model_1 prediction
 def model_predict(path, model):
@@ -101,14 +100,14 @@ def model_predict(path, model):
     db_spec = librosa.power_to_db(spectrogram)
     #temporally average spectrogram
     log_spectrogram = np.mean(db_spec, axis = 0)
-    df.loc[counter] = [log_spectrogram]
-    counter=counter+1 
+    # df.loc[counter] = [log_spectrogram]
+    # counter=counter+1 
 
-    df_combined=pd.DataFrame(df['mel_spectrogram'].values.tolist())
+    # df_combined=pd.DataFrame(df['mel_spectrogram'].values.tolist())
 
-    df_combined = df_combined.fillna(0)
+    # df_combined = df_combined.fillna(0)
 
-    X_test = np.array(df_combined)
+    X_test = np.array([log_spectrogram])
 
     X_test = X_test[:,:,np.newaxis]
  

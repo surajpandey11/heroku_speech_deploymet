@@ -50,16 +50,16 @@ scikit-learn==0.24.2
 scipy==1.6.3
 six==1.15.0
 sklearn==0.0
-SoundFile==0.10.3.post1
-tensorboard==2.5.0
-tensorboard-data-server==0.6.0
-tensorboard-plugin-wit==1.8.0
+# SoundFile==0.10.3.post1
+# tensorboard==2.5.0
+# tensorboard-data-server==0.6.0
+# tensorboard-plugin-wit==1.8.0
 # tensorflow==2.4.1
-tensorflow-estimator==2.4.0
+# tensorflow-estimator==2.4.0
 termcolor==1.1.0
 threadpoolctl==2.1.0
 typing-extensions==3.7.4.3
 urllib3==1.26.4
 Werkzeug==1.0.1
 wrapt==1.12.1
-# tensorflow==2.4.1
+tensorflow==2.4.1
